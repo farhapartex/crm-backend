@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser,UserManager, Group,_user
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from core.models.base_abstract import BaseAbstract
 from core.models.auth.role import Role
+from core.auth.token import Token
 import logging, uuid
 
 logger = logging.getLogger(__name__)
@@ -94,6 +95,15 @@ class UserAbstract(AbstractBaseUser, PermissionsMixin, BaseAbstract):
 
 
 class User(UserAbstract):
+
+    @classmethod
+    def login(cls, user):
+        try:
+            return Token.create_token_response(user)
+        except:
+            return None
+        
+
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
