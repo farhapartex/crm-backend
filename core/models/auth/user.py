@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser,UserManager, Group,_user
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from core.models.base_abstract import BaseAbstract
 from core.models.auth.role import Role
+from core.models.country.country import Country
 from core.auth.token import Token
 import logging, uuid
 
