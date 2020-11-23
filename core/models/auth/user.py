@@ -96,6 +96,11 @@ class UserAbstract(AbstractBaseUser, PermissionsMixin, BaseAbstract):
 
 
 class User(UserAbstract):
+    country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE, blank=True, null=True)
+
+    @classmethod
+    def get_instance(cls, filter_data):
+        return cls.objects.filter(**filter_data).first()
 
     @classmethod
     def login(cls, user):
