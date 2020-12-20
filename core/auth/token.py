@@ -1,7 +1,11 @@
 from django.conf import settings
 from oauth2_provider.models import Application, AccessToken, RefreshToken
 from core.auth.utils import random_token_generator
-import os, datetime
+import os
+import datetime
+
+from core.v1.serializers.auth.UserSerializer import UserSerializer
+
 
 class Token(object):
 
@@ -31,13 +35,11 @@ class Token(object):
 
         access_token = AccessToken.objects.create(user=user, application=application, token=token, expires=expires,scope=scopes)
 
-
         refresh_token = RefreshToken.objects.create(user=user,token=token,access_token=access_token,application=application)
 
         return True, {
             'access_token': access_token.token,
-            'token_type': 'Bearer',
-            'expires_in': expire_seconds,
-            'refresh_token': refresh_token.token,
-            'scope': scopes
+            'scope': scopes,
+            'user': user.as_json(),
+            "role": user.role
         }

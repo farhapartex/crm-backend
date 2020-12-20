@@ -7,7 +7,6 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from core.models.base_abstract import BaseAbstract
 from core.models.auth.role import Role
 from core.models.country.country import Country
-from core.auth.token import Token
 import logging, uuid
 
 logger = logging.getLogger(__name__)
@@ -94,6 +93,15 @@ class UserAbstract(AbstractBaseUser, PermissionsMixin, BaseAbstract):
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
 
+    def as_json(self):
+        return {
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "username": self.username,
+            "mobile": self.mobile,
+            "role": self.role.name if self.role else ""
+        }
+
 
 class User(UserAbstract):
     country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE, blank=True, null=True)
@@ -101,13 +109,6 @@ class User(UserAbstract):
     @classmethod
     def get_instance(cls, filter_data):
         return cls.objects.filter(**filter_data).first()
-
-    @classmethod
-    def login(cls, user):
-        try:
-            return Token.create_token_response(user)
-        except:
-            return None
         
 
     class Meta:
