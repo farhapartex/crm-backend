@@ -12,3 +12,9 @@ class Role(BaseAbstract):
 
     def __str__(self):
         return str(self.id)
+
+    def as_json(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }

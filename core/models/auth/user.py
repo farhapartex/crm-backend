@@ -102,6 +102,24 @@ class UserAbstract(AbstractBaseUser, PermissionsMixin, BaseAbstract):
             "role": self.role.name if self.role else ""
         }
 
+    def is_admin_user(self):
+        try:
+            return self.role.name == "Admin"
+        except:
+            return False
+
+    def is_customer_user(self):
+        try:
+            return self.role.name == "Customer"
+        except:
+            return False
+
+    def is_sales_user(self):
+        try:
+            return self.role.name == "Sales"
+        except:
+            return False
+
 
 class User(UserAbstract):
     country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE, blank=True, null=True)
