@@ -30,7 +30,7 @@ class RoleAdmin(admin.ModelAdmin):
 
 @admin.register(ServiceType)
 class ServiceTypeAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("id", "name", "code")
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
