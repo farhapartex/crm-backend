@@ -40,6 +40,5 @@ class Token(object):
         return True, {
             'access_token': access_token.token,
             'scope': scopes,
-            'user': user.as_json(),
-            "role": user.role
+            'user': user.as_json()
         }

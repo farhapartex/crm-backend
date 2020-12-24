@@ -95,11 +95,12 @@ class UserAbstract(AbstractBaseUser, PermissionsMixin, BaseAbstract):
 
     def as_json(self):
         return {
+            "id": self.id,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "username": self.username,
             "mobile": self.mobile,
-            "role": self.role.name if self.role else ""
+            "role": self.role.name if self.role else None
         }
 
     def is_admin_user(self):
