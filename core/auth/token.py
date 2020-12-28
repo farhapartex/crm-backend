@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils import timezone
 from oauth2_provider.models import Application, AccessToken, RefreshToken
 from core.auth.utils import random_token_generator
 import os
@@ -42,3 +43,14 @@ class Token(object):
             'scope': scopes,
             'user': user.as_json()
         }
+
+    @classmethod
+    def is_token_valid(cls, token):
+        now = timezone.now()
+        access_token_instance = AccessToken.objects.filter(token=token).first()
+        if access_token_instance is None:
+            return False
+
+        expire_date_time = access_token_instance.expires
+
+        return now < expire_date_time

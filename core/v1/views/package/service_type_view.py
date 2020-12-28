@@ -1,4 +1,3 @@
-from django.db import models
 from rest_framework import status, views, viewsets
 from rest_framework.permissions import IsAuthenticated
 from core.v1.permissions.is_admin_user_permission import IS_ADMIN_USER
