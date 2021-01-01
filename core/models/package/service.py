@@ -33,5 +33,6 @@ class Service(BaseAbstract):
                 model = cls
                 fields = ("id", "uid", "name", "service_type", "volume_type", "volume", "created_by", "created_at", "is_active", "service_type_dict")
                 read_only_fields = ("service_type_dict",)
+                lookup_field = "uid"
 
         return ServiceSerializer
