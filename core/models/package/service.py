@@ -16,6 +16,7 @@ class Service(BaseAbstract):
     service_type = models.ForeignKey(ServiceType, related_name='services', on_delete=models.DO_NOTHING)
     volume_type = models.CharField(max_length=100, choices=ServiceVolumeType.choices)
     volume = models.IntegerField()
+    uid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return str(self.id)
@@ -23,8 +24,15 @@ class Service(BaseAbstract):
     @classmethod
     def get_serializer_class(cls):
         class ServiceSerializer(serializers.ModelSerializer):
+            service_type_dict = serializers.SerializerMethodField()
+
+            def get_service_type_dict(self, instance):
+                return {"name": instance.service_type.name, "code": instance.service_type.code}
+
             class Meta:
                 model = cls
-                fields = ("id", "name", "service_type", "volume_type", "volume", "created_by", "created_at", "is_active")
+                fields = ("id", "uid", "name", "service_type", "volume_type", "volume", "created_by", "created_at", "is_active", "service_type_dict")
+                read_only_fields = ("service_type_dict",)
+                lookup_field = "uid"
 
         return ServiceSerializer
