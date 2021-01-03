@@ -6,6 +6,7 @@ from core.models.auth.role import Role
 from core.models.auth.verify_token import VerifyToken
 from core.models.package.service import Service
 from core.models.package.service_type import ServiceType
+from core.models.package.validity import PackageValidity
 
 
 # Register your models here.
@@ -43,3 +44,8 @@ class ServiceTypeAdmin(admin.ModelAdmin):
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ("id", "uid", "name", "is_deleted")
+
+
+@admin.register(PackageValidity)
+class PackageValidityAdmin(admin.ModelAdmin):
+    list_display = ("id", "validity_type", "amount", "is_deleted", "is_active")

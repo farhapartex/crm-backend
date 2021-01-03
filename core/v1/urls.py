@@ -8,6 +8,7 @@ from core.v1.views.package.service_type_view import ServiceTypeAPIView
 from core.v1.views.auth.token_validation_view import TokenValidationView
 from core.v1.views.package.service_view import ServiceView
 from core.v1.views.delete_views.soft_delete_view import SoftDeleteAPIView
+from core.v1.views.package.package_validity_view import PackageValidityView
 
 router = DefaultRouter()
 
@@ -20,5 +21,6 @@ urlpatterns = [
     url(r"^service-types/", ServiceTypeAPIView.as_view()),
     url(r"^token-validation/", TokenValidationView.as_view()),
     url(r"^generic-soft-delete/", SoftDeleteAPIView.as_view()),
+    url(r"^package-validity-list/", PackageValidityView.as_view()),
     re_path(r"^", include(router.urls)),
 ]
