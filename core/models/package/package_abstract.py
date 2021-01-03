@@ -13,6 +13,7 @@ class PackageBaseAbstract(BaseAbstract):
     name = models.CharField(max_length=500)
     validity = models.ForeignKey(PackageValidity, related_name="packages", on_delete=models.CASCADE)
     services = models.ManyToManyField(Service)
+    price = models.IntegerField(default=0)
     uid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:

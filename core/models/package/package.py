@@ -20,8 +20,19 @@ class Package(PackageBaseAbstract):
     @classmethod
     def get_serializer_class(cls):
         class PackageSerializer(serializers.ModelSerializer):
+            validity_json = serializers.SerializerMethodField()
+            total_service = serializers.SerializerMethodField()
+
+            def get_validity_json(self, instance):
+                return {"id": instance.validity.id, "amount": instance.validity.amount, "validity_type": instance.validity.validity_type}
+
+            def get_total_service(self, instance):
+                return instance.services.all().count()
+
             class Meta:
                 model = cls
-                fields = ("id", "uid", "name", "validity", "services", "is_active", "created_at")
+                fields = ("id", "uid", "name", "price", "validity", "services", "is_private", "is_active", "created_at", 'validity_json', 'total_service')
+                read_only_fields = ("validity_json", "total_service")
+                lookup_field = "uid"
 
         return PackageSerializer

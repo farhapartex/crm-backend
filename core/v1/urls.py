@@ -9,10 +9,12 @@ from core.v1.views.auth.token_validation_view import TokenValidationView
 from core.v1.views.package.service_view import ServiceView
 from core.v1.views.delete_views.soft_delete_view import SoftDeleteAPIView
 from core.v1.views.package.package_validity_view import PackageValidityView
+from core.v1.views.package.package_viewset import PackageViewset
 
 router = DefaultRouter()
 
 router.register(r"services", ServiceView, 'services')
+router.register(r"packages", PackageViewset, 'packages')
 
 
 urlpatterns = [
