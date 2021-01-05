@@ -6,7 +6,8 @@ from rest_framework import serializers
 from core.models.base_abstract import BaseAbstract
 from core.models.package.service_type import ServiceType
 from core.constants.service_volume import ServiceVolumeType
-import logging, uuid
+import logging
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +21,10 @@ class Service(BaseAbstract):
 
     def __str__(self):
         return str(self.id)
+
+    def soft_delete(self):
+        self.is_deleted = True
+        self.save()
 
     @classmethod
     def get_serializer_class(cls):

@@ -16,6 +16,9 @@ def remove_current_user():
     _thread_locals.user = None
 
 
-def load_model(app_label, model_name):
-    model = ContentType.objects.get(app_label=app_label, model=model_name)
+def load_model(model_name, app_label=None):
+    if app_label is not None:
+        model = ContentType.objects.get(app_label=app_label, model=model_name)
+    else:
+        model = ContentType.objects.get(model=model_name)
     return model.model_class()

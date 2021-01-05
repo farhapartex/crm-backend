@@ -5,6 +5,9 @@ from rest_framework.response import Response
 class GenericViewset(viewsets.ModelViewSet):
     lookup_field = "uid"
 
+    def get_queryset(self):
+        return self.queryset.filter(is_deleted=False)
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer_data = self.get_serializer(instance)
