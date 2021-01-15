@@ -6,7 +6,7 @@ class GenericViewset(viewsets.ModelViewSet):
     lookup_field = "uid"
 
     def get_queryset(self):
-        return self.queryset.filter(is_deleted=False)
+        return self.queryset.filter(is_deleted=False).order_by("-id")
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
