@@ -7,14 +7,17 @@ from core.v1.views.auth.role_view import RoleAPIView
 from core.v1.views.package.service_type_view import ServiceTypeAPIView
 from core.v1.views.auth.token_validation_view import TokenValidationView
 from core.v1.views.package.service_view import ServiceView
-from core.v1.views.delete_views.soft_delete_view import SoftDeleteAPIView
+from core.v1.views.utils_views.soft_delete_view import SoftDeleteAPIView
 from core.v1.views.package.package_validity_view import PackageValidityView
 from core.v1.views.package.package_viewset import PackageViewset
+from core.v1.views.utils_views.status_change_view import StatusChangeAPIView
+from core.v1.views.user.staff_user_viewset import StaffUserViewset
 
 router = DefaultRouter()
 
 router.register(r"services", ServiceView, 'services')
 router.register(r"packages", PackageViewset, 'packages')
+router.register(r"staff-users", StaffUserViewset, 'staff_users')
 
 
 urlpatterns = [
@@ -24,5 +27,6 @@ urlpatterns = [
     url(r"^token-validation/", TokenValidationView.as_view()),
     url(r"^generic-soft-delete/", SoftDeleteAPIView.as_view()),
     url(r"^package-validity-list/", PackageValidityView.as_view()),
+    url(r"^generic-status-change/", StatusChangeAPIView.as_view()),
     re_path(r"^", include(router.urls)),
 ]

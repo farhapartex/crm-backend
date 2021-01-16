@@ -2,14 +2,17 @@ from django.db import models
 from django.contrib import auth
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractBaseUser,UserManager, Group,_user_get_permissions, _user_has_perm, _user_has_module_perms
+from django.contrib.auth.models import AbstractBaseUser, UserManager, Group, _user_get_permissions, _user_has_perm, \
+    _user_has_module_perms
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from rest_framework import serializers
 from core.models.base_abstract import BaseAbstract
 from core.models.auth.role import Role
 from core.models.country.country import Country
 import logging, uuid
 
 logger = logging.getLogger(__name__)
+
 
 class PermissionsMixin(models.Model):
     is_superuser = models.BooleanField(
@@ -20,7 +23,7 @@ class PermissionsMixin(models.Model):
             'explicitly assigning them.'
         ),
     )
-    role = models.OneToOneField(Role, related_name='role_of', null=True, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, related_name='role_of', null=True, on_delete=models.CASCADE)
 
     def get_user_permissions(self, obj=None):
         return _user_get_permissions(self, obj, 'user')
@@ -84,7 +87,6 @@ class UserAbstract(AbstractBaseUser, PermissionsMixin, BaseAbstract):
 
     class Meta:
         abstract = True
-    
 
     def get_full_name(self):
         """
@@ -128,7 +130,38 @@ class User(UserAbstract):
     @classmethod
     def get_instance(cls, filter_data):
         return cls.objects.filter(**filter_data).first()
-        
+
+    @classmethod
+    def create_instance(cls, validated_data):
+        if "email" not in validated_data:
+            return False
+        validated_data["username"] = validated_data["email"]
+        instance = cls.objects.create(**validated_data)
+        return instance
+
+    @classmethod
+    def get_serializer_class(cls):
+        class UserSerializer(serializers.ModelSerializer):
+            full_name = serializers.SerializerMethodField()
+            role_detail = serializers.SerializerMethodField()
+
+            def get_full_name(self, instance):
+                return instance.first_name + " " + instance.last_name
+
+            def get_role_detail(self, instance):
+                return instance.role.as_json()
+
+            def create(self, validated_data):
+                validated_data["username"] = validated_data["email"]
+                instance = cls.objects.create(**validated_data)
+                return instance
+
+            class Meta:
+                model = cls
+                fields = ("id", "first_name", "last_name", "is_active", "email", "mobile", "username", "is_staff", "date_joined", "role", "role_detail", "full_name")
+                read_only_fields = ("username", "full_name", "date_joined", "role_detail", )
+
+        return UserSerializer
 
     class Meta:
         verbose_name = _('user')

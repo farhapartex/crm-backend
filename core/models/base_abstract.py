@@ -11,5 +11,9 @@ class BaseAbstract(BaseEntity):
     def soft_delete(self):
         pass
 
+    def change_status(self):
+        self.is_active = True if self.is_active is False else False
+        self.save()
+
     class Meta:
         abstract = True

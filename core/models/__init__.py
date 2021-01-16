@@ -7,3 +7,4 @@ from core.models.package.service import Service
 from core.models.package.service_type import ServiceType
 from core.models.package.validity import PackageValidity
 from core.models.package.package import Package
+from core.models.auth.staff_user import StaffUser
