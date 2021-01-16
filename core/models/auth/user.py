@@ -142,6 +142,14 @@ class User(UserAbstract):
     @classmethod
     def get_serializer_class(cls):
         class UserSerializer(serializers.ModelSerializer):
+            full_name = serializers.SerializerMethodField()
+            role_detail = serializers.SerializerMethodField()
+
+            def get_full_name(self, instance):
+                return instance.first_name + " " + instance.last_name
+
+            def get_role_detail(self, instance):
+                return instance.role.as_json()
 
             def create(self, validated_data):
                 validated_data["username"] = validated_data["email"]
@@ -150,8 +158,8 @@ class User(UserAbstract):
 
             class Meta:
                 model = cls
-                fields = ("id", "first_name", "last_name", "email", "mobile", "username", "is_staff", "date_joined", "role")
-                read_only_fields = ("username", "date_joined", )
+                fields = ("id", "first_name", "last_name", "is_active", "email", "mobile", "username", "is_staff", "date_joined", "role", "role_detail", "full_name")
+                read_only_fields = ("username", "full_name", "date_joined", "role_detail", )
 
         return UserSerializer
 
