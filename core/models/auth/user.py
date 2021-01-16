@@ -9,6 +9,7 @@ from rest_framework import serializers
 from core.models.base_abstract import BaseAbstract
 from core.models.auth.role import Role
 from core.models.country.country import Country
+from core.constants.gender import GenderChoice
 import logging, uuid
 
 logger = logging.getLogger(__name__)
@@ -126,6 +127,7 @@ class UserAbstract(AbstractBaseUser, PermissionsMixin, BaseAbstract):
 
 class User(UserAbstract):
     country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE, blank=True, null=True)
+    gender = models.CharField(max_length=10, choices=GenderChoice.choices, null=True, blank=True)
 
     @classmethod
     def get_instance(cls, filter_data):
@@ -158,7 +160,7 @@ class User(UserAbstract):
 
             class Meta:
                 model = cls
-                fields = ("id", "first_name", "last_name", "is_active", "email", "mobile", "username", "is_staff", "date_joined", "role", "role_detail", "full_name")
+                fields = ("id", "first_name", "last_name", "is_active", "email", "mobile", "gender", "username", "is_staff", "date_joined", "role", "role_detail", "full_name")
                 read_only_fields = ("username", "full_name", "date_joined", "role_detail", )
 
         return UserSerializer
