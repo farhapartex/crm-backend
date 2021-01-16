@@ -34,7 +34,7 @@ class CityAdmin(admin.ModelAdmin):
 
 @admin.register(Role)
 class RoleAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("id", "name", )
 
 
 @admin.register(ServiceType)

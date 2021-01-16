@@ -11,11 +11,13 @@ from core.v1.views.utils_views.soft_delete_view import SoftDeleteAPIView
 from core.v1.views.package.package_validity_view import PackageValidityView
 from core.v1.views.package.package_viewset import PackageViewset
 from core.v1.views.utils_views.status_change_view import StatusChangeAPIView
+from core.v1.views.user.staff_user_viewset import StaffUserViewset
 
 router = DefaultRouter()
 
 router.register(r"services", ServiceView, 'services')
 router.register(r"packages", PackageViewset, 'packages')
+router.register(r"staff-users", StaffUserViewset, 'staff_users')
 
 
 urlpatterns = [
