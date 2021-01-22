@@ -12,6 +12,6 @@ class StaffUserFilter(filters.FilterSet):
         if value is None or value == "null":
             return queryset
         try:
-            return queryset.filter(Q(uid__contains=value) | Q(user__username__contains=value) | Q(user__first_name__contains=value) | Q(user__last_name__contains=value))
+            return queryset.filter(Q(uid__contains=value) | Q(user__username__contains=value) | Q(user__first_name__contains=value) | Q(user__last_name__contains=value) | Q(user__mobile__contains=value))
         except:
             return queryset.none()
