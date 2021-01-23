@@ -28,5 +28,6 @@ class Customer(CustomerAbstract):
             class Meta:
                 model = cls
                 fields = ("id", "uid", "user", "nid", "present_address", "permanent_address", "organization", "designation")
+                lookup_field = "uid"
 
         return CustomerSerializer
