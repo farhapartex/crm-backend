@@ -22,7 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url(r'^api/v1/', include("core.v1.urls")),
+    url(r'^api/v1/core/', include("core.v1.urls")),
+    url(r'^api/v1/engine/', include("engine.v1.urls")),
 ]
 
 if settings.DEBUG:

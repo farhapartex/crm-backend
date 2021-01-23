@@ -1,7 +1,4 @@
 from django.db import models
-from django.contrib import auth
-from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 from core.models.base_abstract import BaseAbstract
 from core.models.package.service_type import ServiceType
