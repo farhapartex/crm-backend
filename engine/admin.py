@@ -20,3 +20,8 @@ class OrganizationTypeAdmin(admin.ModelAdmin):
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "type", "total_employee", "is_active", "created_at")
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ("id", "uid", "country", "organization", "is_active", "created_at")
