@@ -8,7 +8,6 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from rest_framework import serializers
 from core.models.base_abstract import BaseAbstract
 from core.models.auth.role import Role
-from engine.models.associate.country import Country
 from core.constants.gender import GenderChoice
 import logging, uuid
 
@@ -126,7 +125,6 @@ class UserAbstract(AbstractBaseUser, PermissionsMixin, BaseAbstract):
 
 
 class User(UserAbstract):
-    country = models.ForeignKey(Country, related_name='users', on_delete=models.CASCADE, blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GenderChoice.choices, null=True, blank=True)
 
     @classmethod
