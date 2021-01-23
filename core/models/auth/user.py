@@ -8,7 +8,7 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from rest_framework import serializers
 from core.models.base_abstract import BaseAbstract
 from core.models.auth.role import Role
-from core.models.country.country import Country
+from engine.models.associate.country import Country
 from core.constants.gender import GenderChoice
 import logging, uuid
 
@@ -157,6 +157,9 @@ class User(UserAbstract):
                 validated_data["username"] = validated_data["email"]
                 instance = cls.objects.create(**validated_data)
                 return instance
+
+            def update(self, instance, validated_data):
+                return super(UserSerializer, self).update(instance, validated_data)
 
             class Meta:
                 model = cls
